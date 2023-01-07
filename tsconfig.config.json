@@ -1,0 +1,18 @@
+{
+  //tsconfig.node.json用于服务端渲染ssr的
+  //其他配置，建议在这里面进行修改
+  //对vite.config.ts进行编译
+  "extends": "@vue/tsconfig/tsconfig.node.json",
+  "include": [
+    "vite.config.*",
+    "vitest.config.*",
+    "cypress.config.*",
+    "playwright.config.*"
+  ],
+  "compilerOptions": {
+    //合成，因为默认是识别tsconfig.json,需要加上属性
+    "composite": true,
+    //环境可能在node中
+    "types": ["node"]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  //这个文件生成后，不建议修改，如需配置建议到引入文件中
+  //继承
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  //告诉ts哪些文件需要编译
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  //配置别名，可以用于vscode读取使用，用于tsc解析
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  // 引入文件，默认生成的tsconfig.json不建议修改，其他配置推荐在引入文件中修改
+  "references": [
+    {
+      "path": "./tsconfig.config.json"
+    }
+  ]
+}
