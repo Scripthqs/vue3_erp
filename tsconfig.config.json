@@ -13,6 +13,8 @@
     //合成，因为默认是识别tsconfig.json,需要加上属性
     "composite": true,
     //环境可能在node中
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   }
 }

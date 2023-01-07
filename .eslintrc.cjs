@@ -14,6 +14,6 @@ module.exports = {
     ecmaVersion: "latest"
   },
   rules: {
-    "@typescript-eslint/no-unused-vars": "off"
+    "vue/multi-word-component-names": "off"
   }
 };
