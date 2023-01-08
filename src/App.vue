@@ -1,9 +1,14 @@
 <template>
-  <div>App</div>
-  <RouterLink to="/main">首页</RouterLink>
-  <RouterLink to="/login">登录</RouterLink>
-  <RouterView></RouterView>
+  <div class="app">
+    <RouterView></RouterView>
+  </div>
 </template>
 <script setup lang="ts"></script>
 
-<style scoped></style>
+<style scoped>
+.app {
+  height: 100vh;
+  width: 100vw;
+  background-color: #999;
+}
+</style>
