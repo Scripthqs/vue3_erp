@@ -1,4 +1,4 @@
-const API_VERSION = "/1";
+const API_VERSION = "/1"
 const MODULES = {
   module_portal: "biz.portal",
   module_user: "biz.user",
@@ -21,6 +21,6 @@ const MODULES = {
   module_manufacture: "biz.manufacture",
   module_search: "biz.search",
   module_system: "biz.system"
-};
+}
 
-export { MODULES, API_VERSION };
+export { MODULES, API_VERSION }

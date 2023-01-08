@@ -17,7 +17,7 @@
                 <span class="text">帐号登录</span>
               </div>
             </template>
-            <!-- <PaneAccount ref="accountRef" /> -->
+            <PaneAccount ref="accountRef" />
           </el-tab-pane>
 
           <!-- 2.手机登录的Pane -->
@@ -37,26 +37,35 @@
         <el-checkbox v-model="isSave" label="记住密码" size="large" />
         <el-link type="primary">忘记密码</el-link>
       </div>
-      <el-button type="primary" size="large" class="loginBtn">登录</el-button>
+      <el-button
+        type="primary"
+        size="large"
+        class="loginBtn"
+        @click="handleLoginBtnClick"
+        >登录</el-button
+      >
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import apiRequest from "@/service";
-import { API } from "@/service/api";
-// import PaneAccount from "./cpn/PaneAccount.vue";
+
+import PaneAccount from "./cpn/PaneAccount.vue";
 // import PanePhone from "./cpn/PanePhone.vue";
 
-//接口
-// let url = API.countByPager;
-// console.log(url, "url------");
-// apiRequest.get({ url }).then((res) => {
-//   console.log(res);
-// });
 const isSave = ref(false);
 const tabName = ref("account");
+
+const accountRef = ref<InstanceType<typeof PaneAccount>>();
+
+const handleLoginBtnClick = () => {
+  if (tabName.value === "account") {
+    accountRef.value?.loginAction();
+  } else {
+    console.log("用户在进行手机登录");
+  }
+};
 </script>
 
 <style lang="less" scoped>
@@ -100,16 +109,22 @@ const tabName = ref("account");
     backdrop-filter: blur(10px);
     border: 2px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-  }
-  .loginTitle {
-    text-align: center;
-  }
-  .loginControls {
-    display: flex;
-    justify-content: space-between;
-  }
-  .loginBtn {
-    width: 100%;
+
+    .loginTitle {
+      text-align: center;
+      margin-top: 40px;
+    }
+    .loginTabs {
+      margin-top: 40px;
+    }
+
+    .loginControls {
+      display: flex;
+      justify-content: space-between;
+    }
+    .loginBtn {
+      width: 100%;
+    }
   }
 }
 </style>

@@ -1,6 +1,13 @@
 <template>
   <div class="pane-account">
-    <el-form :model="account" :rules="accountRules" label-width="60px" size="large" status-icon ref="formRef">
+    <el-form
+      :model="account"
+      :rules="accountRules"
+      label-width="60px"
+      size="large"
+      status-icon
+      ref="formRef"
+    >
       <el-form-item label="帐号" prop="name">
         <el-input v-model="account.name" />
       </el-form-item>
@@ -16,7 +23,7 @@ import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
 import type { FormRules, ElForm } from "element-plus";
 import useLoginStore from "@/store/login/login";
-import type { IAccount } from "@/types";
+import type { IAccount } from "@/views/login/types/login";
 
 // 1.定义account数据
 const account = reactive<IAccount>({
@@ -29,8 +36,8 @@ const accountRules: FormRules = {
   name: [
     { required: true, message: "必须输入帐号信息~", trigger: "blur" },
     {
-      pattern: /^[a-z0-9]{6,20}$/,
-      message: "必须是6~20数字或字母组成~",
+      pattern: /^[a-z0-9]{5,20}$/,
+      message: "必须是5~20数字或字母组成~",
       trigger: "blur"
     }
   ],
@@ -46,8 +53,10 @@ const accountRules: FormRules = {
 
 // 3.执行帐号的登录逻辑
 const formRef = ref<InstanceType<typeof ElForm>>();
+
 const loginStore = useLoginStore();
-function loginAction() {
+
+const loginAction = () => {
   formRef.value?.validate((valid) => {
     if (valid) {
       // 1.获取用户输入的帐号和密码
@@ -55,12 +64,12 @@ function loginAction() {
       const password = account.password;
 
       // 2.向服务器发送网络请求(携带账号和密码)
-      loginStore.loginAccountAction({ name, password });
+      loginStore.loginAction({ name, password });
     } else {
       ElMessage.error("Oops, 请您输入正确的格式后再操作~~.");
     }
   });
-}
+};
 
 defineExpose({
   loginAction
