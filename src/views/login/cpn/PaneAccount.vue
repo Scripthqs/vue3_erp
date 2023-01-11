@@ -24,11 +24,12 @@ import { ElMessage } from "element-plus";
 import type { FormRules, ElForm } from "element-plus";
 import useLoginStore from "@/store/login/login";
 import type { IAccount } from "@/views/login/types/login";
+import { localCache } from "@/utils/cache";
 
 // 1.定义account数据
 const account = reactive<IAccount>({
-  name: "",
-  password: ""
+  name: localCache.getCache("name") ?? "",
+  password: localCache.getCache("password") ?? ""
 });
 
 // 2.定义校验规则
@@ -56,7 +57,7 @@ const formRef = ref<InstanceType<typeof ElForm>>();
 
 const loginStore = useLoginStore();
 
-const loginAction = () => {
+const loginAction = (isSave: boolean) => {
   formRef.value?.validate((valid) => {
     if (valid) {
       // 1.获取用户输入的帐号和密码
@@ -64,7 +65,16 @@ const loginAction = () => {
       const password = account.password;
 
       // 2.向服务器发送网络请求(携带账号和密码)
-      loginStore.loginAction({ name, password });
+      loginStore.loginAction({ name, password }).then((res) => {
+        //3.判段是否需要记住密码
+        if (isSave) {
+          localCache.setCache("name", name);
+          localCache.setCache("password", password);
+        } else {
+          localCache.removeCache("name");
+          localCache.removeCache("password");
+        }
+      });
     } else {
       ElMessage.error("Oops, 请您输入正确的格式后再操作~~.");
     }

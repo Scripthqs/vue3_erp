@@ -28,7 +28,7 @@
                 <span class="text">手机登录</span>
               </div>
             </template>
-            <!-- <PanePhone /> -->
+            <PanePhone />
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -49,19 +49,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { localCache } from "@/utils/cache";
+import { ref, watch } from "vue";
 
 import PaneAccount from "./cpn/PaneAccount.vue";
-// import PanePhone from "./cpn/PanePhone.vue";
+import PanePhone from "./cpn/PanePhone.vue";
 
-const isSave = ref(false);
 const tabName = ref("account");
+const isSave = ref<boolean>(localCache.getCache("isSave"));
+watch(isSave, (newValue) => {
+  localCache.setCache("isSave", newValue);
+});
 
 const accountRef = ref<InstanceType<typeof PaneAccount>>();
 
 const handleLoginBtnClick = () => {
   if (tabName.value === "account") {
-    accountRef.value?.loginAction();
+    accountRef.value?.loginAction(isSave.value);
   } else {
     console.log("用户在进行手机登录");
   }
@@ -75,7 +79,7 @@ const handleLoginBtnClick = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #080710;
+  background-color: #070a10bd;
 
   .loginBgd {
     width: 400px;
@@ -121,6 +125,7 @@ const handleLoginBtnClick = () => {
     .loginControls {
       display: flex;
       justify-content: space-between;
+      margin: 10px 0px;
     }
     .loginBtn {
       width: 100%;
