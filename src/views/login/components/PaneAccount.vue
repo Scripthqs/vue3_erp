@@ -22,8 +22,8 @@
 import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
 import type { FormRules, ElForm } from "element-plus";
-import useLoginStore from "@/store/login/login";
-import type { IAccount } from "@/views/login/types/login";
+import useLoginStore from "@/views/login/store/login_store";
+import type { IAccount } from "@/views/login/types/login_type";
 import { localCache } from "@/utils/cache";
 
 // 1.定义account数据

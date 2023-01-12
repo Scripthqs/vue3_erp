@@ -7,19 +7,19 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      redirect: "/main"
+      redirect: "/home"
     },
     {
       path: "/login",
-      component: () => import("@/views/login/Login.vue")
+      component: () => import("@/views/login/login.vue")
     },
     {
-      path: "/main",
-      component: () => import("@/views/main/Main.vue")
+      path: "/home",
+      component: () => import("@/layout/layout.vue")
     },
     {
       path: "/:pathMatch(.*)",
-      component: () => import("@/views/notFound/NotFound.vue")
+      component: () => import("@/views/errorPages/404.vue")
     }
   ]
 });
@@ -28,7 +28,7 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   console.log(to, from);
   const token = localCache.getCache(LOGIN_TOKEN);
-  if (to.path === "/main" && !token) {
+  if (to.path === "/home" && !token) {
     return "/login";
   }
 });

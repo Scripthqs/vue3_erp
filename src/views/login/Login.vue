@@ -34,16 +34,17 @@
       </div>
 
       <div class="loginControls">
-        <el-checkbox v-model="isSave" label="记住密码" size="large" />
+        <el-checkbox v-model="isKeep" label="记住密码" size="large" />
         <el-link type="primary">忘记密码</el-link>
       </div>
       <el-button
         type="primary"
         size="large"
         class="loginBtn"
-        @click="handleLoginBtnClick"
-        >登录</el-button
+        @click="handleLogin"
       >
+        登录
+      </el-button>
     </div>
   </div>
 </template>
@@ -52,20 +53,20 @@
 import { localCache } from "@/utils/cache";
 import { ref, watch } from "vue";
 
-import PaneAccount from "./cpn/PaneAccount.vue";
-import PanePhone from "./cpn/PanePhone.vue";
+import PaneAccount from "./components/PaneAccount.vue";
+import PanePhone from "./components/PanePhone.vue";
 
 const tabName = ref("account");
-const isSave = ref<boolean>(localCache.getCache("isSave"));
-watch(isSave, (newValue) => {
-  localCache.setCache("isSave", newValue);
+const isKeep = ref<boolean>(localCache.getCache("isKeep"));
+watch(isKeep, (newValue) => {
+  localCache.setCache("isKeep", newValue);
 });
 
 const accountRef = ref<InstanceType<typeof PaneAccount>>();
 
-const handleLoginBtnClick = () => {
+const handleLogin = () => {
   if (tabName.value === "account") {
-    accountRef.value?.loginAction(isSave.value);
+    accountRef.value?.loginAction(isKeep.value);
   } else {
     console.log("用户在进行手机登录");
   }

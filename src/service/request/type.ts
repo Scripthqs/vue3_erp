@@ -8,6 +8,7 @@ export interface APIInterceptors<T = AxiosResponse> {
   responseFailureFn?: (err: any) => any;
 }
 
-export interface APIRequestConfig<T = AxiosResponse> extends AxiosRequestConfig {
+export interface APIRequestConfig<T = AxiosResponse>
+  extends AxiosRequestConfig {
   interceptors?: APIInterceptors<T>;
 }
