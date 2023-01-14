@@ -1,9 +1,13 @@
 <template>
   <div class="main">
-    <el-container class="common-layout">
-      <el-aside width="200px">Aside</el-aside>
+    <el-container class="layout">
+      <el-aside :width="isFold ? '60px' : '200px'">
+        <MainMenu :isFold="isFold"></MainMenu>
+      </el-aside>
       <el-container>
-        <el-header>Header</el-header>
+        <el-header>
+          <MainHeader @foldChange="handleFoldChange"></MainHeader>
+        </el-header>
         <el-main>Main</el-main>
       </el-container>
     </el-container>
@@ -11,17 +15,14 @@
 </template>
 
 <script setup lang="ts">
-import { LOGIN_TOKEN } from "@/global/constants";
-import router from "@/router";
-import { localCache } from "@/utils/cache";
-import { ElMessage } from "element-plus";
+import { ref } from "vue";
 
-const logout = () => {
-  // 1.删除token
-  localCache.removeCache(LOGIN_TOKEN);
-  // 2.跳到登录页面
-  router.push("/login");
-  ElMessage({ message: "退出登录！", type: "success" });
+import MainMenu from "./mainMenu/mainMenu.vue";
+import MainHeader from "./mainHeader/mainHeader.vue";
+
+const isFold = ref(false);
+const handleFoldChange = (isChange: boolean) => {
+  isFold.value = isChange;
 };
 </script>
 
@@ -29,23 +30,10 @@ const logout = () => {
 .main {
   height: 100%;
 }
-.common-layout {
+.layout {
   height: 100%;
   .el-aside {
-    overflow-x: hidden;
-    overflow-y: auto;
-    line-height: 200px;
-    text-align: left;
-    cursor: pointer;
     background-color: #304156;
-    scrollbar-width: none; /* firefox */
-    -ms-overflow-style: none; /* IE 10+ */
-
-    transition: width 0.3s ease;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
   .el-header {
     background-color: #ffffff;

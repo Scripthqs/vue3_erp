@@ -21,8 +21,8 @@ const useLoginStore = defineStore("login", {
   //如何指定state的类型
   state: (): ILoginState => ({
     token: localCache.getCache(LOGIN_TOKEN) ?? "",
-    userInfo: {},
-    userMenus: []
+    userInfo: localCache.getCache("userInfo") ?? {},
+    userMenus: localCache.getCache("userMenus") ?? []
   }),
   actions: {
     async loginAction(account: IAccount) {
@@ -30,20 +30,20 @@ const useLoginStore = defineStore("login", {
       const loginRes = await loginRequest(account);
       const id = loginRes.data.id;
       this.token = loginRes.data.token;
-      // 2.进行本地缓存
-      localCache.setCache(LOGIN_TOKEN, this.token);
 
-      // 3.获取登录用户的详细信息(role信息)
+      // 2.获取登录用户的详细信息(role信息)
       const userInfoRes = await getUserInfoById(id);
       const userInfo = userInfoRes.data;
       this.userInfo = userInfo;
-      console.log(this.userInfo);
 
-      // 4.根据角色请求用户的权限(菜单menus)
+      // 3.根据角色请求用户的权限(菜单menus)
       const userMenusRes = await getUserMenusByRoleId(this.userInfo.role.id);
       const userMenus = userMenusRes.data;
       this.userMenus = userMenus;
-      console.log(userMenusRes, "userMenusRes");
+
+      // 4.进行本地缓存
+      localCache.setCache(LOGIN_TOKEN, this.token);
+      localCache.setCache("userInfo", this.userInfo);
       localCache.setCache("userMenus", this.userMenus);
 
       // 5.页面跳转(home页面)
