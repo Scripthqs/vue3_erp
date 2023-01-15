@@ -7,19 +7,24 @@
     </div>
     <div class="header-content">
       <div class="breadcrumb">面包屑</div>
-      <!-- <header-info /> -->
+      <headerInfo />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
+import useLayoutStore from "@/layout/store/layout_store";
 
-const emit = defineEmits(["foldChange"]);
+import headerInfo from "./headerInfo.vue";
+
+const layoutStore = useLayoutStore();
+
 const isFold = ref(false);
+
 const handleFold = () => {
   isFold.value = !isFold.value;
-  emit("foldChange", isFold.value);
+  layoutStore.foldAction(isFold.value);
 };
 </script>
 

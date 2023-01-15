@@ -5,7 +5,7 @@
 </template>
 <script setup lang="ts"></script>
 
-<style scoped>
+<style lang="less" scoped>
 .app {
   height: 100vh;
   width: 100vw;

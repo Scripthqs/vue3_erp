@@ -10,6 +10,7 @@
         :unique-opened="false"
         background-color="#304156"
         text-color="#bfcbd9"
+        :collapse-transition="false"
       >
         <MenuTree :userMenus="userMenus"></MenuTree>
       </el-menu>
@@ -23,15 +24,13 @@ import { computed } from "vue";
 import MenuTree from "./menuTree.vue";
 
 import useLoginStore from "@/views/login/store/login_store";
-defineProps({
-  isFold: {
-    type: Boolean,
-    default: true
-  }
-});
+import useLayoutStore from "@/layout/store/layout_store";
 
 const loginStore = useLoginStore();
+const layoutStore = useLayoutStore();
+
 const userMenus = computed(() => loginStore.userMenus);
+const isFold = computed(() => layoutStore.isFold);
 
 console.log(userMenus);
 </script>
@@ -43,12 +42,14 @@ console.log(userMenus);
   cursor: pointer;
   scrollbar-width: none; /* firefox */
   -ms-overflow-style: none; /* IE 10+ */
+  // transition: width 0.3s ease;
   &::-webkit-scrollbar {
     display: none;
   }
 }
 .mainMenu {
   height: 100%;
+  overflow: hidden;
 }
 
 .mainMenuLogo {

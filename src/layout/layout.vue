@@ -6,24 +6,26 @@
       </el-aside>
       <el-container>
         <el-header>
-          <MainHeader @foldChange="handleFoldChange"></MainHeader>
+          <MainHeader></MainHeader>
         </el-header>
-        <el-main>Main</el-main>
+        <el-main>
+          <Router-view></Router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed } from "vue";
 
 import MainMenu from "./mainMenu/mainMenu.vue";
 import MainHeader from "./mainHeader/mainHeader.vue";
 
-const isFold = ref(false);
-const handleFoldChange = (isChange: boolean) => {
-  isFold.value = isChange;
-};
+import useLayoutStore from "@/layout/store/layout_store";
+const layoutStore = useLayoutStore();
+
+const isFold = computed(() => layoutStore.isFold);
 </script>
 
 <style lang="less" scoped>
@@ -34,6 +36,7 @@ const handleFoldChange = (isChange: boolean) => {
   height: 100%;
   .el-aside {
     background-color: #304156;
+    transition: width 0.3s ease;
   }
   .el-header {
     background-color: #ffffff;

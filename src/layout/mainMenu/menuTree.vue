@@ -9,7 +9,7 @@
       </template>
       <MenuTree :userMenus="item.children" />
     </el-sub-menu>
-    <el-menu-item v-else :index="item.id + ''">
+    <el-menu-item v-else :index="item.id + ''" @click="handleItemMenu(item)">
       <template #title>
         <el-icon>
           <component :is="item?.icon?.split('-icon-')[1] ?? 'Document'" />
@@ -21,12 +21,19 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from "vue-router";
+
 defineProps({
   userMenus: {
     type: Array as any,
     default: () => []
   }
 });
+
+const router = useRouter();
+const handleItemMenu = (item: any) => {
+  router.push(item.url);
+};
 </script>
 
 <style lang="less" scoped></style>

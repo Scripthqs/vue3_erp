@@ -7,15 +7,25 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      redirect: "/home"
+      redirect: "/main"
     },
     {
       path: "/login",
       component: () => import("@/views/login/login.vue")
     },
     {
-      path: "/home",
-      component: () => import("@/layout/layout.vue")
+      path: "/main",
+      component: () => import("@/layout/layout.vue"),
+      children: [
+        {
+          path: "/main/analysis/overview",
+          component: () => import("@/views/main/analysis/overview/index.vue")
+        },
+        {
+          path: "/main/analysis/dashboard",
+          component: () => import("@/views/main/analysis/dashboard/index.vue")
+        }
+      ]
     },
     {
       path: "/:pathMatch(.*)",
@@ -28,7 +38,7 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   console.log(to, from);
   const token = localCache.getCache(LOGIN_TOKEN);
-  if (to.path === "/home" && !token) {
+  if (to.path === "/main" && !token) {
     return "/login";
   }
 });

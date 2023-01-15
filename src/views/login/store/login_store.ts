@@ -30,24 +30,22 @@ const useLoginStore = defineStore("login", {
       const loginRes = await loginRequest(account);
       const id = loginRes.data.id;
       this.token = loginRes.data.token;
+      localCache.setCache(LOGIN_TOKEN, this.token);
 
       // 2.获取登录用户的详细信息(role信息)
       const userInfoRes = await getUserInfoById(id);
       const userInfo = userInfoRes.data;
       this.userInfo = userInfo;
+      localCache.setCache("userInfo", this.userInfo);
 
       // 3.根据角色请求用户的权限(菜单menus)
       const userMenusRes = await getUserMenusByRoleId(this.userInfo.role.id);
       const userMenus = userMenusRes.data;
       this.userMenus = userMenus;
-
-      // 4.进行本地缓存
-      localCache.setCache(LOGIN_TOKEN, this.token);
-      localCache.setCache("userInfo", this.userInfo);
       localCache.setCache("userMenus", this.userMenus);
 
       // 5.页面跳转(home页面)
-      router.push("/home");
+      router.push("/main");
     }
   }
 });
