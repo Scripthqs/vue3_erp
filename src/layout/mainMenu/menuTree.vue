@@ -1,6 +1,6 @@
 <template>
   <template v-for="item in userMenus" :key="item.id">
-    <el-sub-menu v-if="item.children" :index="item.id + ''">
+    <el-sub-menu v-if="item.children && item.type < 2" :index="item.id + ''">
       <template #title>
         <el-icon>
           <component :is="item?.icon?.split('-icon-')[1] ?? 'Folder'" />

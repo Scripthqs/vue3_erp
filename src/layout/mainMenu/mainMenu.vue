@@ -11,6 +11,7 @@
         background-color="#304156"
         text-color="#bfcbd9"
         :collapse-transition="false"
+        :default-active="defaultActive"
       >
         <MenuTree :userMenus="userMenus"></MenuTree>
       </el-menu>
@@ -26,13 +27,22 @@ import MenuTree from "./menuTree.vue";
 import useLoginStore from "@/views/login/store/login_store";
 import useLayoutStore from "@/layout/store/layout_store";
 
+import { useRoute } from "vue-router";
+
+import { mapPathToMenu } from "@/utils/mapMenus";
+
 const loginStore = useLoginStore();
 const layoutStore = useLayoutStore();
 
 const userMenus = computed(() => loginStore.userMenus);
 const isFold = computed(() => layoutStore.isFold);
 
-console.log(userMenus);
+// ElMenu的默认菜单
+const route = useRoute();
+const defaultActive = computed(() => {
+  const pathMenu = mapPathToMenu(route.path, userMenus.value);
+  return pathMenu.id + "";
+});
 </script>
 
 <style lang="less" scoped>
