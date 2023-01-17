@@ -1,6 +1,6 @@
 import { LOGIN_TOKEN } from "@/global/constants";
 import { localCache } from "@/utils/cache";
-import { firstMenu } from "@/utils/mapMenus";
+import { firstRoute } from "@/utils/mapMenus";
 
 import { createRouter, createWebHashHistory } from "vue-router";
 
@@ -27,7 +27,7 @@ const router = createRouter({
   ]
 });
 
-// const localRouters = [
+// const localRoutes = [
 //   {
 //     path: "/main/analysis/overview",
 //     component: () => import("@/views/main/analysis/overview/index.vue")
@@ -40,8 +40,8 @@ const router = createRouter({
 
 //动态添加路由
 
-// router.addRoute("main", localRouters[0]);
-// router.addRoute("main", localRouters[1]);
+// router.addRoute("main", localRoutes[0]);
+// router.addRoute("main", localRoutes[1]);
 
 //导航守卫
 router.beforeEach((to, from) => {
@@ -51,9 +51,9 @@ router.beforeEach((to, from) => {
     return "/login";
   }
   //如果进入到main中
-
   if (to.path === "/main") {
-    return firstMenu?.url;
+    console.log(firstRoute, "firstRoute");
+    return firstRoute?.path;
   }
 });
 

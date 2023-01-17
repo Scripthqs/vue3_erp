@@ -6,7 +6,7 @@
       </el-icon>
     </div>
     <div class="header-content">
-      <div class="breadcrumb">面包屑</div>
+      <headerCrumb></headerCrumb>
       <headerInfo />
     </div>
   </div>
@@ -15,6 +15,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import useLayoutStore from "@/layout/store/layout_store";
+
+import headerCrumb from "./headerCrumb.vue";
 
 import headerInfo from "./headerInfo.vue";
 

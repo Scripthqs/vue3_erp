@@ -47,6 +47,7 @@ const useLoginStore = defineStore("login", {
 
       //动态添加路由
       const routes = mapMenusToRoutes(userMenus);
+      console.log(routes, "routes-----");
       routes.forEach((route) => router.addRoute(route));
 
       // 5.页面跳转(home页面)
