@@ -1,13 +1,23 @@
 <template>
-  <div class="overview">
-    <h2>overview</h2>
-  </div>
+  <test></test>
 </template>
 
-<script setup lang="ts"></script>
+<script lang="ts" setup>
+import { h, ref } from "vue";
+const text = ref("hello world");
+const btnClick = () => {
+  text.value = "屠龙宝刀，点击就送";
+};
+const test = () =>
+  h("div", { className: "hello" }, [
+    h("button", { onClick: btnClick }, "点击"),
+    h("div", null, text.value)
+  ]);
+</script>
 
 <style lang="less" scoped>
-.overview {
+.hello {
+  font-size: 20px;
   color: red;
 }
 </style>

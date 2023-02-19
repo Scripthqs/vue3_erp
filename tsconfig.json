@@ -3,13 +3,20 @@
   //继承
   "extends": "@vue/tsconfig/tsconfig.web.json",
   //告诉ts哪些文件需要编译
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "auto-import.d.ts", "components.d.ts"],
+  "include": [
+    "env.d.ts",
+    "src/**/*",
+    "src/**/*.vue",
+    "auto-import.d.ts",
+    "components.d.ts"
+  ],
   //配置别名，可以用于vscode读取使用，用于tsc解析
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "allowJs": true
     // "types": ["element-plus/global"]//全局导入引入
     // "noImplicitAny": false //不允许有隐式的any
   },
