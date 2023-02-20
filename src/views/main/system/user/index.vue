@@ -21,10 +21,10 @@
     <button @click="addItem">添加</button>
     <button @click="removeItem">删除</button>
   </div>
-  <TransitionGroup name="list" tag="ul">
-    <li v-for="item in items" :key="item">
+  <TransitionGroup name="list" tag="div">
+    <div v-for="item in items" :key="item">
       {{ item }}
-    </li>
+    </div>
   </TransitionGroup>
 </template>
 
