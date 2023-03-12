@@ -1,7 +1,7 @@
 <template>
   <div class="dep">
     <audio controls>
-      <source src="./music/下个路口见 - 李宇春.mp3" />
+      <source src="" />
     </audio>
     <div class="container">
       <ul class="lrc-list">
