@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { AxiosInstance } from "axios";
-import type { APIRequestConfig } from "./type";
+import type { RequestConfig } from "./type";
 
 // 拦截器: 蒙版Loading/token/修改配置
 
@@ -14,11 +14,11 @@ import type { APIRequestConfig } from "./type";
  *  2.响应结果的类型处理(泛型)
  */
 
-class APIRequest {
+class Request {
   instance: AxiosInstance;
 
   // request实例 => axios的实例
-  constructor(config: APIRequestConfig) {
+  constructor(config: RequestConfig) {
     this.instance = axios.create(config);
 
     // 每个instance实例都添加拦截器
@@ -40,7 +40,7 @@ class APIRequest {
       }
     );
 
-    // 针对特定的apiRequest实例添加拦截器
+    // 针对特定的request实例添加拦截器
     this.instance.interceptors.request.use(
       config.interceptors?.requestSuccessFn,
       config.interceptors?.requestFailureFn
@@ -53,7 +53,7 @@ class APIRequest {
 
   // 封装网络请求的方法
   // T => IHomeData
-  request<T = any>(config: APIRequestConfig<T>) {
+  request<T = any>(config: RequestConfig<T>) {
     // 单次请求的成功拦截处理
     if (config.interceptors?.requestSuccessFn) {
       config = config.interceptors.requestSuccessFn(config);
@@ -76,18 +76,18 @@ class APIRequest {
     });
   }
 
-  get<T = any>(config: APIRequestConfig<T>) {
+  get<T = any>(config: RequestConfig<T>) {
     return this.request({ ...config, method: "GET" });
   }
-  post<T = any>(config: APIRequestConfig<T>) {
+  post<T = any>(config: RequestConfig<T>) {
     return this.request({ ...config, method: "POST" });
   }
-  delete<T = any>(config: APIRequestConfig<T>) {
+  delete<T = any>(config: RequestConfig<T>) {
     return this.request({ ...config, method: "DELETE" });
   }
-  patch<T = any>(config: APIRequestConfig<T>) {
+  patch<T = any>(config: RequestConfig<T>) {
     return this.request({ ...config, method: "PATCH" });
   }
 }
 
-export default APIRequest;
+export default Request;
