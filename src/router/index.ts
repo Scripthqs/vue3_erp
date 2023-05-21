@@ -45,16 +45,16 @@ const router = createRouter({
 
 //导航守卫
 router.beforeEach((to, from) => {
-  // console.log(to, from);
-  // const token = localCache.getCache(LOGIN_TOKEN);
-  // if (to.path === "/main" && !token) {
-  //   return "/login";
-  // }
-  // //如果进入到main中
-  // if (to.path === "/main") {
-  //   console.log(firstRoute, "firstRoute");
-  //   return firstRoute?.path;
-  // }
+  console.log(to, from);
+  const token = localCache.getCache(LOGIN_TOKEN);
+  if (to.path === "/main" && !token) {
+    return "/login";
+  }
+  //如果进入到main中
+  if (to.path === "/main") {
+    console.log(firstRoute, "firstRoute");
+    return firstRoute?.path;
+  }
 });
 
 export default router;

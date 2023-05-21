@@ -24,6 +24,6 @@ console.log(import.meta.env.VITE_URL);
 
 // 配置文件
 
-const BASE_URL = import.meta.env.VITE_URL;
+export const BASE_URL = import.meta.env.VITE_URL;
 export const TIME_OUT = 10000;
-export { BASE_URL };
+// export { BASE_URL };

@@ -1,7 +1,7 @@
 import type { AxiosRequestConfig, AxiosResponse } from "axios";
 
 // 针对AxiosRequestConfig配置进行扩展
-export interface APIInterceptors<T = AxiosResponse> {
+interface Interceptors<T = AxiosResponse> {
   requestSuccessFn?: (config: AxiosRequestConfig) => AxiosRequestConfig;
   requestFailureFn?: (err: any) => any;
   responseSuccessFn?: (res: T) => T;
@@ -9,5 +9,5 @@ export interface APIInterceptors<T = AxiosResponse> {
 }
 
 export interface RequestConfig<T = AxiosResponse> extends AxiosRequestConfig {
-  interceptors?: APIInterceptors<T>;
+  interceptors?: Interceptors<T>;
 }

@@ -28,8 +28,8 @@ import { localCache } from "@/utils/cache";
 
 // 1.定义account数据
 const account = reactive<IAccount>({
-  name: localCache.getCache("name") ?? "",
-  password: localCache.getCache("password") ?? ""
+  name: localCache.getCache("name") ?? "coderwhy",
+  password: localCache.getCache("password") ?? "123456"
 });
 
 // 2.定义校验规则
