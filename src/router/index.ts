@@ -39,13 +39,12 @@ const router = createRouter({
 // ];
 
 //动态添加路由
-
 // router.addRoute("main", localRoutes[0]);
 // router.addRoute("main", localRoutes[1]);
 
 //导航守卫
 router.beforeEach((to, from) => {
-  console.log(to, from);
+  // console.log(to, from);
   const token = localCache.getCache(LOGIN_TOKEN);
   if (to.path === "/main" && !token) {
     return "/login";

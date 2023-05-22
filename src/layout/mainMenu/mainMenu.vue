@@ -2,9 +2,9 @@
   <div class="mainMenu">
     <div class="mainMenuLogo">
       <img class="logo" src="@/assets/img/logo.png" alt="logo" />
-      <h2 class="title">Vue3 ERP</h2>
+      <h2 class="title">Vue3 TS ERP</h2>
     </div>
-    <el-scrollbar wrap-class="scrollbar-wrapper">
+    <el-scrollbar wrap-class="scrollbar-wrapper" height="calc(100vh - 60px)">
       <el-menu
         :collapse="isFold"
         :unique-opened="false"

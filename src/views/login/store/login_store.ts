@@ -22,8 +22,8 @@ const useLoginStore = defineStore("login", {
   //如何指定state的类型
   state: (): ILoginState => ({
     token: "",
-    userInfo: {},
-    userMenus: []
+    userInfo: {}, //用户信息
+    userMenus: [] //菜单
   }),
   actions: {
     async loginAction(account: IAccount) {
@@ -47,7 +47,6 @@ const useLoginStore = defineStore("login", {
 
       //动态添加路由
       const routes = mapMenusToRoutes(userMenus);
-      console.log(routes, "routes-----");
       routes.forEach((route) => router.addRoute(route));
 
       // 5.页面跳转(home页面)

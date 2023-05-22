@@ -1,7 +1,7 @@
 <template>
   <el-breadcrumb separator-icon="ArrowRight">
     <template v-for="item in breadcrumbs" :key="item.name">
-      <el-breadcrumb-item :to="item.path">
+      <el-breadcrumb-item :to="item.url">
         {{ item.name }}
       </el-breadcrumb-item>
     </template>
@@ -18,7 +18,7 @@ const userMenus = useLoginStore().userMenus;
 
 const breadcrumbs = computed(() => mapPathToBreadcrumbs(route.path, userMenus));
 // () => route.matched.filter((item) => item.meta && item.meta.title)
-console.log(route.matched, " route.matched");
+// console.log(route.matched, " route.matched");
 </script>
 
 <style lang="less" scoped></style>

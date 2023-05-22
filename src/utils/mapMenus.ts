@@ -1,7 +1,8 @@
 import type { RouteRecordRaw } from "vue-router";
-
+import { localMenu } from "./localMenu.js";
 /**
- * @returns 本地全部路由
+ * @returns 1.本地全部路由
+ * 将本地所有的路由保存起来
  */
 function loadLocalRoutes() {
   /*
@@ -10,7 +11,7 @@ function loadLocalRoutes() {
    * vite import.meta.glob()
    */
   const localRoutes: RouteRecordRaw[] = [];
-  //  r1.1读取router.components下的所有ts文件
+  //  1. 读取router.components下的所有ts文件
   // const files = import.meta.glob("@/router/components/*.ts");
   // const files = import.meta.glob("@/router/components/**/*.ts");
   //如果还有一个文件夹就加/**/
@@ -18,14 +19,16 @@ function loadLocalRoutes() {
     "@/router/components/*.ts",
     {
       eager: true
-      //加上这个代表不是以路由懒加载的形式
+      //默认这个方法是异步的，加上第二个参数{ eager: true }同步获取
     }
   );
-  //  r1.2将加载的对象放到localRoutes中
+  //  2. 将加载的对象放到localRoutes中
+  console.log("加载指定文件夹下的ts文件:", files);
   for (const key in files) {
     const module = files[key];
     localRoutes.push(...module.default);
   }
+  console.log("本地所有的路由:", localRoutes);
   return localRoutes;
 }
 
@@ -37,11 +40,15 @@ export let firstRoute: any = null;
 /**
  * @param userMenus 所有的菜单
  * @returns 映射的路由
+ *  根据菜单权限判断具体需要哪些路由，而不是所有路由
  */
 export function mapMenusToRoutes(userMenus: any[]) {
+  console.log("菜单权限：", userMenus);
+  console.log("自定义菜单", localMenu);
+  userMenus.push(...localMenu);
   // 1.加载本地路由
   const localRoutes = loadLocalRoutes();
-  // r2.根据菜单去匹配正确的路由
+  // 2.根据菜单去匹配正确的路由
   const routes: RouteRecordRaw[] = [];
 
   //确定只有2层菜单
@@ -56,6 +63,7 @@ export function mapMenusToRoutes(userMenus: any[]) {
   function _getRoute(menus: any[]) {
     for (const menu of menus) {
       if (menu.type === 2) {
+        //从本地路由中找到有菜单权限的路由
         const route = localRoutes.find((item) => item.path === menu.url);
         if (route) routes.push(route);
         if (!firstRoute && route) firstRoute = route;
@@ -69,6 +77,8 @@ export function mapMenusToRoutes(userMenus: any[]) {
   }
   _getRoute(userMenus);
 
+  console.log("根据菜单匹配路由：", routes);
+
   return routes;
 }
 
@@ -78,13 +88,6 @@ export function mapMenusToRoutes(userMenus: any[]) {
  * @param userMenus 所有的菜单
  */
 export function mapPathToMenu(path: string, userMenus: any[]) {
-  // for (const menu of userMenus) {
-  //   for (const submenu of menu.children) {
-  //     if (submenu.url === path) {
-  //       return submenu;
-  //     }
-  //   }
-  // }
   let subMenu: any = {};
   function _getPath(menus: any[]) {
     for (const menu of menus) {
@@ -101,37 +104,30 @@ export function mapPathToMenu(path: string, userMenus: any[]) {
 
 interface IBreadcrumbs {
   name: string;
-  path: string;
+  url: string;
 }
 export function mapPathToBreadcrumbs(path: string, userMenus: any[]) {
   // 1.定义面包屑
   const breadcrumbs: IBreadcrumbs[] = [];
 
-  // 2.遍历获取面包屑层级
-  // for (const menu of userMenus) {
-  //   for (const submenu of menu.children) {
-  //     if (submenu.url === path) {
-  //       // 1.顶层菜单
-  //       breadcrumbs.push({ name: menu.name, path: menu.url });
-  //       // 2.匹配菜单
-  //       breadcrumbs.push({ name: submenu.name, path: submenu.url });
-  //     }
-  //   }
-  // }
-
-  function _getBreadcrumbs(menus: any[]) {
-    for (const menu of menus) {
-      breadcrumbs.push({ name: menu.name, path: menu.url });
-      if (menu.url === path) {
-        breadcrumbs.push({ name: menu.name, path: menu.url });
-      } else if (menu.children) {
-        _getBreadcrumbs(menu.children ?? []);
-        breadcrumbs.pop();
-      } else {
-        breadcrumbs.pop();
-      }
+  // 拆分路由
+  console.log("当前路由：", path);
+  const pathSplit = path.split("/").filter((c) => !!c);
+  pathSplit.forEach((c, i) => {
+    if (i) {
+      pathSplit[i] = pathSplit[i - 1] + "/" + c;
+    } else {
+      pathSplit[i] = "/" + pathSplit[i];
     }
-  }
-  _getBreadcrumbs(userMenus);
+  });
+  console.log("将当前路由拆分：", pathSplit);
+  pathSplit.forEach((c) => {
+    const findItem = userMenus.find((menu) => menu.url === c);
+    if (findItem) {
+      breadcrumbs.push(findItem);
+      userMenus = findItem.children;
+    }
+  });
+  console.log("获取当前面包屑", breadcrumbs);
   return breadcrumbs;
 }
