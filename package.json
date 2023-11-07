@@ -16,6 +16,7 @@
     "element-plus": "^2.2.28",
     "normalize.css": "^8.0.1",
     "pinia": "^2.0.28",
+    "pnpm": "^8.5.1",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
   },
